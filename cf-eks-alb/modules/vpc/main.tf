@@ -20,15 +20,15 @@ module "vpc" {
   tags = var.tags
 }
 
-data "aws_availability_zones" "available" {}
-
 locals = {
   eks_subnets_tags = {
-    "Name"                            = "${var.environment}-eks-subnet-${count.index}"
+    "Name"                            = "${var.environment}-eks-subnet-${var.region}-${count.index}"
     "kubernetes.io/role/internal-elb" = "1"
-    Environment                       = var.environment
+#   Environment                       = var.environment
   }
 }
+
+data "aws_availability_zones" "available" {}
 
 resource "aws_subnet" "eks_subnets" {
 
@@ -71,3 +71,4 @@ resource "aws_security_group" "alb_sg" {
   tags = var.tags
 
 }
+
