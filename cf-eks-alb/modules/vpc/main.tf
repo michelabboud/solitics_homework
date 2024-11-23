@@ -27,7 +27,7 @@ module "vpc" {
 
 data "aws_availability_zones" "available" {}
 
-resource "aws_subnet" "eks_subnet" {
+resource "aws_subnet" "eks_subnets" {
 
   count = length(module.vpc.azs)
 
