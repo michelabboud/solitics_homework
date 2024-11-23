@@ -21,7 +21,7 @@ module "vpc" {
       Environment  = var.environment
       Owner        = "Michel"
       Project      = "Michel Homework test"
-      TimeStamp    = timestamp()
+#       TimeStamp    = timestamp()
     }
 }
 
