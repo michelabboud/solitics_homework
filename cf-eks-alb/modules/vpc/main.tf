@@ -5,11 +5,12 @@ module "vpc" {
   name = "${var.environment}-michel-vpc"
   cidr = var.vpc_cidr
   
-  azs             = slice(data.aws_availability_zones.available.names, 0, 3)
-  public_subnets  = var.public_subnets_cidr
-  private_subnets = var.private_subnets_cidr
+  azs              = slice(data.aws_availability_zones.available.names, 0, 3)
+  public_subnets   = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 4, k)]
+  private_subnets  = [for k, v in module.vpc.azs  : cidrsubnet(var.vpc_cidr, 8, k + 4)]
 
-  # private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
+# public_subnets  = var.public_subnets_cidr
+# private_subnets = var.private_subnets_cidr
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -26,16 +27,32 @@ module "vpc" {
 
 data "aws_availability_zones" "available" {}
 
+resource "aws_subnet" "eks_subnet" {
+
+  count = length(module.vpc.azs)
+
+  vpc_id            = module.vpc.vpc_id
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 8)
+  availability_zone = element(module.vpc.azs, count.index)
+  map_public_ip_on_launch = false
+
+  tags = {
+    "Name"                            = "${var.environment}-eks-subnet-${count.index}"
+    "kubernetes.io/role/internal-elb" = "1"
+    Environment                       = var.environment
+  }
+}
+
 resource "aws_security_group" "alb_sg" {
   name   = "${var.environment}-michel-alb-${var.region}-sg"
   vpc_id = module.vpc.vpc_id
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
-  }
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = [var.vpc_cidr]
+#   }
 
   ingress {
     from_port   = 443

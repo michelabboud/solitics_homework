@@ -10,6 +10,10 @@ output "private_subnets" {
   value = module.vpc.private_subnets
 }
 
+# output "eks_subnets"  {
+#   value =  module.vpc.eks_subnets
+# }
+
 output "alb_sg_id" {
   value = aws_security_group.alb_sg.id
 }
