@@ -39,6 +39,11 @@ variable "vpc_cidr" {
   type = string
 }
 
+variable "vpc_name" {
+  description = "value"
+  type = string
+}
+
 variable "public_subnets_cidr" {
   description = "List of public subnets cidrs"
   type = list(string)
@@ -47,4 +52,8 @@ variable "public_subnets_cidr" {
 variable "private_subnets_cidr" {
   description = "List of private subnets cidrs"
   type = list(string)
+}
+variable "tags" {
+  description = "A map of tags to apply to resources"
+  type        = map(string)
 }

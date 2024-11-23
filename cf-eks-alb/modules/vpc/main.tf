@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = ">= 3.19.0"
 
-  name = "${var.environment}-michel-vpc"
+  name = "${var.environment}-${var.vpc_name}"
   cidr = var.vpc_cidr
   
   azs              = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -17,15 +17,18 @@ module "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-    tags = {
-      Environment  = var.environment
-      Owner        = "Michel"
-      Project      = "Michel Homework test"
-      TimeStamp    = timestamp()
-    }
+  tags = var.tags
 }
 
 data "aws_availability_zones" "available" {}
+
+locals = {
+  eks_subnets_tags = {
+    "Name"                            = "${var.environment}-eks-subnet-${count.index}"
+    "kubernetes.io/role/internal-elb" = "1"
+    Environment                       = var.environment
+  }
+}
 
 resource "aws_subnet" "eks_subnets" {
 
@@ -36,11 +39,8 @@ resource "aws_subnet" "eks_subnets" {
   availability_zone = element(module.vpc.azs, count.index)
   map_public_ip_on_launch = false
 
-  tags = {
-    "Name"                            = "${var.environment}-eks-subnet-${count.index}"
-    "kubernetes.io/role/internal-elb" = "1"
-    Environment                       = var.environment
-  }
+  tags = merge(local.eks_subnets_tags, var.tags)
+
 }
 
 resource "aws_security_group" "alb_sg" {
@@ -68,7 +68,6 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = var.tags
+
 }
