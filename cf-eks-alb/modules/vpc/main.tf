@@ -1,16 +1,22 @@
+data "aws_availability_zones" "available" {}
+
+locals {
+  eks_subnets_tags = {
+    "Name" = "${var.environment}-eks-subnet-${var.region}-${count.index}",
+    "kubernetes.io/role/internal-elb" = "1"
+  }
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = ">= 3.19.0"
 
   name = "${var.environment}-${var.vpc_name}"
   cidr = var.vpc_cidr
-  
+
   azs              = slice(data.aws_availability_zones.available.names, 0, 3)
   public_subnets   = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k)]
-  private_subnets  = [for k, v in module.vpc.azs  : cidrsubnet(var.vpc_cidr, 8, k + 4)]
-
-# public_subnets  = var.public_subnets_cidr
-# private_subnets = var.private_subnets_cidr
+  private_subnets  = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k + 4)]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -20,39 +26,23 @@ module "vpc" {
   tags = var.tags
 }
 
-locals = {
-  eks_subnets_tags = {
-    "Name"                            = "${var.environment}-eks-subnet-${var.region}-${count.index}"
-    "kubernetes.io/role/internal-elb" = "1"
-#   Environment                       = var.environment
-  }
-}
-
-data "aws_availability_zones" "available" {}
-
 resource "aws_subnet" "eks_subnets" {
-
-  count = length(module.vpc.azs)
+  count = length(data.aws_availability_zones.available.names)
 
   vpc_id            = module.vpc.vpc_id
   cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 8)
-  availability_zone = element(module.vpc.azs, count.index)
+  availability_zone = element(data.aws_availability_zones.available.names, count.index)
   map_public_ip_on_launch = false
 
-  tags = merge(local.eks_subnets_tags, var.tags)
-
+  tags = merge(
+    local.eks_subnets_tags,
+    var.tags
+  )
 }
 
 resource "aws_security_group" "alb_sg" {
   name   = "${var.environment}-michel-alb-${var.region}-sg"
   vpc_id = module.vpc.vpc_id
-
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = [var.vpc_cidr]
-#   }
 
   ingress {
     from_port   = 443
@@ -69,6 +59,4 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = var.tags
-
 }
-
