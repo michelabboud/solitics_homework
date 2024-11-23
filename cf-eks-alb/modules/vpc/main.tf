@@ -6,7 +6,7 @@ module "vpc" {
   cidr = var.vpc_cidr
   
   azs              = slice(data.aws_availability_zones.available.names, 0, 3)
-  public_subnets   = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 4, k)]
+  public_subnets   = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k)]
   private_subnets  = [for k, v in module.vpc.azs  : cidrsubnet(var.vpc_cidr, 8, k + 4)]
 
 # public_subnets  = var.public_subnets_cidr
