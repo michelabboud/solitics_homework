@@ -1,5 +1,5 @@
 tags = {
-     Environment  = var.environment
+#    Environment  = "stg"
      Owner        = "Michel"
      Project      = "Michel Homework test"
 #    TimeStamp    = timestamp()

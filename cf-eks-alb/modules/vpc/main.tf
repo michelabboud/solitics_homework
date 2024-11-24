@@ -16,7 +16,7 @@ module "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = var.tags
+  tags = merge( {"Environment" = var.environment} , var.tags)
 }
 
 resource "aws_subnet" "eks_subnets" {
@@ -30,7 +30,8 @@ resource "aws_subnet" "eks_subnets" {
   tags = merge(
     {
       "Name"                            = "${var.environment}-eks-subnet-${var.region}-${count.index}",
-      "kubernetes.io/role/internal-elb" = "1"
+      "kubernetes.io/role/internal-elb" = "1",
+      "Environment"                     = var.environment
     },
     var.tags
   )
@@ -54,5 +55,5 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge( {"Environment" = var.environment} , var.tags)
 }
