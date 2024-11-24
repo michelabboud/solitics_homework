@@ -126,7 +126,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    source_security_group_id = aws_security_group.eks_control_plane.id
+    security_groups = [aws_security_group.eks_control_plane.id]
   }
 
   ingress {
