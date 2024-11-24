@@ -236,7 +236,6 @@ EOT
   }
 }
 
-
 resource "kubernetes_deployment" "nginx_hello_world" {
   metadata {
     name      = "nginx-hello-world"
