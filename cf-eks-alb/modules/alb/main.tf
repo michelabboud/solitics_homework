@@ -11,42 +11,25 @@ module "alb" {
   subnets            = var.subnets
   security_groups    = [var.alb_sg_id]
 
-  tags = merge({ Environment = var.environment }, var.tags)
+#     listener = [{
+#       instance_port     = "80"
+#       instance_protocol = "http"
+#       lb_port           = "80"
+#       lb_protocol       = "http"
+#      },
+#     ]
+#
+#     health_check = [
+#     {
+#       target              = "HTTP:80/"
+#       interval            = 30
+#       healthy_threshold   = 2
+#       unhealthy_threshold = 2
+#       timeout             = 5
+#     },]
+
+    tags = merge({ Environment = var.environment }, var.tags)
 }
-
-# resource "aws_lb_listener" "https" {
-#   load_balancer_arn = module.alb.this_lb_arn
-#   port              = 443
-#   protocol          = "HTTPS"
-#
-#   ssl_policy = "ELBSecurityPolicy-2016-08"
-# #   certificate_arn = var.certificate_arn
-#
-#
-#   default_action {
-#     type = "fixed-response"
-#     fixed_response {
-#       content_type = "text/plain"
-#       message_body = "Secure connection to ${var.environment}!"
-#       status_code  = "200"
-#     }
-#   }
-# }
-
-# resource "aws_lb_listener" "http" {
-#   load_balancer_arn = module.alb.this_lb_arn
-#   port              = 80
-#   protocol          = "HTTP"
-#
-#   default_action {
-#     type = "fixed-response"
-#     fixed_response {
-#       content_type = "text/plain"
-#       message_body = "Unsecure connection to ${var.environment}!"
-#       status_code  = "200"
-#     }
-#   }
-# }
 
 resource "aws_lb_target_group" "eks_target_group" {
   name        = "${var.environment}-eks-tg"
@@ -76,21 +59,6 @@ resource "aws_lb_listener" "http" {
   }
 
   depends_on = [aws_lb_target_group.eks_target_group]
-}
-
-resource "aws_lb_listener_rule" "http_rule" {
-  listener_arn = aws_lb_listener.http.arn
-  priority     = 100
-
-  actions {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.eks_target_group.arn
-  }
-
-  conditions {
-    field  = "path-pattern"
-    values = ["/*"]
-  }
 }
 
 resource "aws_security_group_rule" "eks_to_alb" {
