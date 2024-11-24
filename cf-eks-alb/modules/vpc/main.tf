@@ -29,7 +29,7 @@ resource "aws_subnet" "eks_subnets" {
 
   tags = merge(
     {
-      "Name"                            = "${var.environment}-eks-subnet-${var.region}-${element(data.aws_availability_zones.available.names, count.index)}",
+      "Name"                            = "${var.environment}-eks-subnet-${element(data.aws_availability_zones.available.names, count.index)}",
       "kubernetes.io/role/internal-elb" = "1",
       "Environment"                     = var.environment
     },
