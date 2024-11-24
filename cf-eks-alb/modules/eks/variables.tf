@@ -9,7 +9,7 @@ variable "vpc_id" {
 }
 
 variable "vpc_cidr" {
-  type        = list(string)
+  type        = string
   description = "VPC Cidr"
 }
 

@@ -98,7 +98,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.vpc_cidr
+    cidr_blocks = [var.vpc_cidr]
   }
 
   ingress {
@@ -106,7 +106,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.vpc_cidr
+    cidr_blocks = [var.vpc_cidr]
   }
 
   ingress {
@@ -114,7 +114,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 10250
     to_port     = 10250
     protocol    = "tcp"
-    cidr_blocks = var.vpc_cidr
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {
