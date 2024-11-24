@@ -159,6 +159,20 @@ resource "aws_security_group" "eks_worker_nodes" {
 
 ################# kubernetes deployments #########################
 
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = module.eks_al2.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks_al2.cluster_id
+}
+
 resource "kubernetes_service" "nginx_hello_world" {
   metadata {
     name      = "nginx-hello-world"
