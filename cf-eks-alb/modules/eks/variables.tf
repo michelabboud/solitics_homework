@@ -10,6 +10,11 @@ variable "vpc_id" {
 
 variable "subnets" {
   type        = list(string)
+  description = "List of subnet cidr for the cluster."
+}
+
+variable "subnet_ids" {
+  type        = list(string)
   description = "List of subnet IDs for the cluster."
 }
 

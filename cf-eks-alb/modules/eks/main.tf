@@ -14,7 +14,7 @@ module "eks_al2" {
   }
 
   vpc_id     = var.vpc_id
-  subnet_ids = var.subnets
+  subnet_ids = var.subnet_ids
 
   eks_managed_node_groups = {
     eks_node_group_1 = {
