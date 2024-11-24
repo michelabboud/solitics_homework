@@ -1,7 +1,7 @@
-# variable "environment" {
-#   description = "Environment name"
-#   type        = string
-# }
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
 
 variable "vpc_id" {
   description = "VPC ID where the ALB will be deployed"
@@ -16,4 +16,10 @@ variable "subnets" {
 variable "alb_sg_id" {
   description = "Security group ID for the ALB"
   type        = string
+}
+
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags for resources."
 }

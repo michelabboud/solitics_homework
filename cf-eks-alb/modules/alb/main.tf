@@ -1,3 +1,5 @@
+data "aws_availability_zones" "available" {}
+
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "5.0.0"
@@ -9,12 +11,8 @@ module "alb" {
   subnets            = var.subnets
   security_groups    = [var.alb_sg_id]
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = merge({ Environment = var.environment }, var.tags)
 }
-
-# data "aws_availability_zones" "available" {}
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn = module.alb.this_lb_arn
