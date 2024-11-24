@@ -94,6 +94,14 @@ resource "aws_security_group" "eks_control_plane" {
   vpc_id      = var.vpc_id
 
   ingress {
+    description = "Allow all node communication on HTTP (API Server)"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = var.subnets
+  }
+
+  ingress {
     description = "Allow all node communication on HTTPS (API Server)"
     from_port   = 443
     to_port     = 443
@@ -123,6 +131,14 @@ resource "aws_security_group" "eks_worker_nodes" {
   name        = "${var.cluster_name}-worker-nodes-sg"
   description = "EKS Worker Nodes Security Group"
   vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow worker nodes to communicate with control plane"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.eks_control_plane.id]
+  }
 
   ingress {
     description = "Allow worker nodes to communicate with control plane"
@@ -182,6 +198,11 @@ resource "kubernetes_service" "nginx_hello_world" {
   spec {
     selector = {
       app = "nginx-hello-world"
+    }
+
+    port {
+      port        = 80
+      target_port = 80
     }
 
     port {
