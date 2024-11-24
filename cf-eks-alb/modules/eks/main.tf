@@ -175,110 +175,110 @@ resource "aws_security_group" "eks_worker_nodes" {
 
 ################# kubernetes deployments #########################
 
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
-}
-
-data "aws_eks_cluster" "cluster" {
-  name = module.eks_al2.cluster_name
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks_al2.cluster_name
-}
-
-resource "kubernetes_service" "nginx_hello_world" {
-  metadata {
-    name      = "nginx-hello-world"
-    namespace = "default"
-  }
-
-  spec {
-    selector = {
-      app = "nginx-hello-world"
-    }
-
-    port {
-      port        = 80
-      target_port = 80
-    }
-
-    port {
-      port        = 443
-      target_port = 443
-    }
-
-    type = "LoadBalancer"
-  }
-}
-
-resource "kubernetes_config_map" "nginx_hello_world" {
-  metadata {
-    name      = "nginx-hello-world"
-    namespace = "default"
-  }
-
-  data = {
-    "index.html" = <<EOT
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello World</title>
-</head>
-<body>
-    <h1>Hello, World!</h1>
-    <p>This is a simple Hello World message served by NGINX!</p>
-</body>
-</html>
-EOT
-  }
-}
-
-resource "kubernetes_deployment" "nginx_hello_world" {
-  metadata {
-    name      = "nginx-hello-world"
-    namespace = "default"
-    labels = {
-      app = "nginx-hello-world"
-    }
-  }
-
-  spec {
-    replicas = 2
-
-    selector {
-      match_labels = {
-        app = "nginx-hello-world"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          app = "nginx-hello-world"
-        }
-      }
-
-      spec {
-        container {
-          name  = "nginx"
-          image = "nginx:latest"
-          volume_mount {
-            name       = "nginx-html"
-            mount_path = "/usr/share/nginx/html"
-          }
-        }
-
-        volume {
-          name = "nginx-html"
-
-          config_map {
-            name = kubernetes_config_map.nginx_hello_world.metadata[0].name
-          }
-        }
-      }
-    }
-  }
-}
+# provider "kubernetes" {
+#   host                   = data.aws_eks_cluster.cluster.endpoint
+#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+#   token                  = data.aws_eks_cluster_auth.cluster.token
+# }
+#
+# data "aws_eks_cluster" "cluster" {
+#   name = module.eks_al2.cluster_name
+# }
+#
+# data "aws_eks_cluster_auth" "cluster" {
+#   name = module.eks_al2.cluster_name
+# }
+#
+# resource "kubernetes_service" "nginx_hello_world" {
+#   metadata {
+#     name      = "nginx-hello-world"
+#     namespace = "default"
+#   }
+#
+#   spec {
+#     selector = {
+#       app = "nginx-hello-world"
+#     }
+#
+#     port {
+#       port        = 80
+#       target_port = 80
+#     }
+#
+#     port {
+#       port        = 443
+#       target_port = 443
+#     }
+#
+#     type = "LoadBalancer"
+#   }
+# }
+#
+# resource "kubernetes_config_map" "nginx_hello_world" {
+#   metadata {
+#     name      = "nginx-hello-world"
+#     namespace = "default"
+#   }
+#
+#   data = {
+#     "index.html" = <<EOT
+# <!DOCTYPE html>
+# <html>
+# <head>
+#     <title>Hello World</title>
+# </head>
+# <body>
+#     <h1>Hello, World!</h1>
+#     <p>This is a simple Hello World message served by NGINX!</p>
+# </body>
+# </html>
+# EOT
+#   }
+# }
+#
+# resource "kubernetes_deployment" "nginx_hello_world" {
+#   metadata {
+#     name      = "nginx-hello-world"
+#     namespace = "default"
+#     labels = {
+#       app = "nginx-hello-world"
+#     }
+#   }
+#
+#   spec {
+#     replicas = 2
+#
+#     selector {
+#       match_labels = {
+#         app = "nginx-hello-world"
+#       }
+#     }
+#
+#     template {
+#       metadata {
+#         labels = {
+#           app = "nginx-hello-world"
+#         }
+#       }
+#
+#       spec {
+#         container {
+#           name  = "nginx"
+#           image = "nginx:latest"
+#           volume_mount {
+#             name       = "nginx-html"
+#             mount_path = "/usr/share/nginx/html"
+#           }
+#         }
+#
+#         volume {
+#           name = "nginx-html"
+#
+#           config_map {
+#             name = kubernetes_config_map.nginx_hello_world.metadata[0].name
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
