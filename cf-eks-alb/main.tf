@@ -1,13 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-  required_version = ">= 1.9.0"
-}
-
 provider "aws" {
   region     = var.aws_region
   access_key = var.aws_access_key
@@ -36,13 +26,14 @@ module "vpc" {
 
 }
 
-# module "eks" {
-#   source              = "./modules/eks"
-#   vpc_id              = module.vpc.vpc_id
-#   subnets             = module.vpc.private_subnets
-#   environment         = var.environment
-#   cluster_name        = "eks-cluster-${var.environment}-1"
-# }
+module "eks" {
+  source              = "./modules/eks"
+  vpc_id              = module.vpc.vpc_id
+  subnets             = module.vpc.eks_subnet_cidr
+  environment         = var.environment
+  cluster_name        = "eks-cluster-${var.environment}-1"
+  tags                = var.tags
+}
 
 # module "alb" {
 #   source                = "./modules/alb"

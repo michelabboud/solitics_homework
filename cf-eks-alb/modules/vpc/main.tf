@@ -15,6 +15,7 @@ module "vpc" {
   single_nat_gateway   = true
   enable_dns_support   = true
   enable_dns_hostnames = true
+#   enable_flow_log      = true
 
   tags = merge( {"Environment" = var.environment} , var.tags)
 }

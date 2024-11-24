@@ -1,39 +1,33 @@
+module "eks_al2" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.0"
 
-module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.cluster_name
   cluster_version = "1.31"
-  vpc_id          = var.vpc_id
-}
 
-resource "aws_eks_cluster" "cluster" {
-  name     = var.cluster_name
-  role_arn = aws_iam_role.cluster_role.arn
-
-  vpc_config {
-    subnet_ids = var.subnets
+  # EKS Addons
+  cluster_addons = {
+    coredns                = {}
+    eks-pod-identity-agent = {}
+    kube-proxy             = {}
+    vpc-cni                = {}
   }
 
-  tags = {
-    Environment = var.environment
-  }
-}
+  vpc_id     = var.vpc_id
+  subnet_ids = var.subnets
 
-resource "aws_eks_node_group" "nginx_nodes" {
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "${var.environment}-nginx-nodes"
-  node_role_arn   = aws_iam_role.node_role.arn
-  subnet_ids      = var.subnets
+  eks_managed_node_groups = {
+    eks_node_group_1 = {
+      ami_type       = "AL2_x86_64"
+      instance_types = ["m6i.large"]
 
-  scaling_config {
-    desired_size = 3
-    min_size     = 2
-    max_size     = 5
+      min_size = 2
+      max_size = 5
+      desired_size = 2
+    }
   }
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = merge( {Environment = var.environment} ,var.tags)
 }
 
 resource "aws_iam_role" "cluster_role" {
