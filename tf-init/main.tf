@@ -36,7 +36,7 @@ resource "aws_s3_bucket" "terraform_state" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes = [tags_all]
+#   ignore_changes = [tags_all]
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_dynamodb_table" "tf_locks" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes = [tags_all]
+#   ignore_changes = [tags_all]
   }
 
 }

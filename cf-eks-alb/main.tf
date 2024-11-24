@@ -39,11 +39,13 @@ module "eks" {
 }
 
 module "alb" {
-  source                = "./modules/alb"
-  vpc_id                = module.vpc.vpc_id
-  subnets               = module.vpc.private_subnets
-  alb_sg_id             = module.vpc.alb_sg_id
-  environment           = var.environment
+  source                  = "./modules/alb"
+  vpc_id                  = module.vpc.vpc_id
+  subnets                 = module.vpc.private_subnets
+  alb_sg_id               = module.vpc.alb_sg_id
+  eks_control_plane_sg_id = module.eks.eks_control_plane_sg_id
+  eks_worker_nodes_sg_id  = module.eks.eks_worker_nodes_sg_id
+  environment             = var.environment
 }
 
 # module "cloudfront" {

@@ -15,7 +15,7 @@ module "vpc" {
   single_nat_gateway   = true
   enable_dns_support   = true
   enable_dns_hostnames = true
-#   enable_flow_log      = true
+# enable_flow_log      = true
 
   tags = merge( {"Environment" = var.environment} , var.tags)
 }
@@ -51,6 +51,13 @@ resource "aws_security_group" "alb_sg" {
   ingress {
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
