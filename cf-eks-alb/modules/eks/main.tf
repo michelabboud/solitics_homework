@@ -16,6 +16,9 @@ module "eks_al2" {
   vpc_id     = var.vpc_id
   subnet_ids = var.subnet_ids
 
+  cluster_security_group_id   = aws_security_group.eks_control_plane.id
+  node_security_group_ids     = [aws_security_group.eks_worker_nodes.id]
+
   eks_managed_node_groups = {
     eks_node_group_1 = {
       ami_type       = "AL2_x86_64"
@@ -81,3 +84,73 @@ resource "aws_iam_policy_attachment" "node_role_policy_cni" {
   roles      = [aws_iam_role.node_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
+
+resource "aws_security_group" "eks_control_plane" {
+  name        = "${var.cluster_name}-control-plane-sg"
+  description = "EKS Control Plane Security Group"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow all node communication on HTTPS (API Server)"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.subnets
+  }
+
+  ingress {
+    description = "Allow all node communication on custom ports (Kubelet API)"
+    from_port   = 10250
+    to_port     = 10250
+    protocol    = "tcp"
+    cidr_blocks = var.subnets
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
+resource "aws_security_group" "eks_worker_nodes" {
+  name        = "${var.cluster_name}-worker-nodes-sg"
+  description = "EKS Worker Nodes Security Group"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Allow worker nodes to communicate with control plane"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    source_security_group_id = aws_security_group.eks_control_plane.id
+  }
+
+  ingress {
+    description = "Allow worker-to-worker communication (NodePorts)"
+    from_port   = 30000
+    to_port     = 32767
+    protocol    = "tcp"
+    cidr_blocks = var.subnets
+  }
+
+  ingress {
+    description = "Allow worker-to-worker communication (Internal Kubernetes ports)"
+    from_port   = 1025
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = var.subnets
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
