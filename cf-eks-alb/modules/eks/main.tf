@@ -137,7 +137,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.eks_control_plane.id]
+#     security_groups = [aws_security_group.eks_control_plane.id]
   }
 
   ingress {
@@ -145,7 +145,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    security_groups = [aws_security_group.eks_control_plane.id]
+#     security_groups = [aws_security_group.eks_control_plane.id]
   }
 
   ingress {
