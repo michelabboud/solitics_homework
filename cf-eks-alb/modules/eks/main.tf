@@ -166,11 +166,11 @@ provider "kubernetes" {
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = module.eks_al2.cluster_id
+  name = module.eks_al2.cluster_name
 }
 
 data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks_al2.cluster_id
+  name = module.eks_al2.cluster_name
 }
 
 resource "kubernetes_service" "nginx_hello_world" {
