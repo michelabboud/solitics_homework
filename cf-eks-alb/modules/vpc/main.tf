@@ -1,12 +1,5 @@
 data "aws_availability_zones" "available" {}
 
-locals {
-  eks_subnets_tags = {
-    "Name" = "${var.environment}-eks-subnet-${var.region}-${count.index}",
-    "kubernetes.io/role/internal-elb" = "1"
-  }
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = ">= 3.19.0"
@@ -14,9 +7,9 @@ module "vpc" {
   name = "${var.environment}-${var.vpc_name}"
   cidr = var.vpc_cidr
 
-  azs              = slice(data.aws_availability_zones.available.names, 0, 3)
-  public_subnets   = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k)]
-  private_subnets  = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k + 4)]
+  azs             = slice(data.aws_availability_zones.available.names, 0, 3)
+  public_subnets  = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k)]
+  private_subnets = [for k, v in module.vpc.azs : cidrsubnet(var.vpc_cidr, 8, k + 4)]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -29,13 +22,16 @@ module "vpc" {
 resource "aws_subnet" "eks_subnets" {
   count = length(data.aws_availability_zones.available.names)
 
-  vpc_id            = module.vpc.vpc_id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 8)
-  availability_zone = element(data.aws_availability_zones.available.names, count.index)
+  vpc_id                  = module.vpc.vpc_id
+  cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index + 8)
+  availability_zone       = element(data.aws_availability_zones.available.names, count.index)
   map_public_ip_on_launch = false
 
   tags = merge(
-    local.eks_subnets_tags,
+    {
+      "Name"                            = "${var.environment}-eks-subnet-${var.region}-${count.index}",
+      "kubernetes.io/role/internal-elb" = "1"
+    },
     var.tags
   )
 }
