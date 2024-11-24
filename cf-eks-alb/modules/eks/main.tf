@@ -157,3 +157,94 @@ resource "aws_security_group" "eks_worker_nodes" {
   }
 }
 
+################# kubernetes deployments #########################
+
+resource "kubernetes_service" "nginx_hello_world" {
+  metadata {
+    name      = "nginx-hello-world"
+    namespace = "default"
+  }
+
+  spec {
+    selector = {
+      app = "nginx-hello-world"
+    }
+
+    port {
+      port        = 80
+      target_port = 80
+    }
+
+    type = "LoadBalancer"
+  }
+}
+
+resource "kubernetes_config_map" "nginx_hello_world" {
+  metadata {
+    name      = "nginx-hello-world"
+    namespace = "default"
+  }
+
+  data = {
+    "index.html" = <<EOT
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a simple Hello World message served by NGINX!</p>
+</body>
+</html>
+EOT
+  }
+}
+
+
+resource "kubernetes_deployment" "nginx_hello_world" {
+  metadata {
+    name      = "nginx-hello-world"
+    namespace = "default"
+    labels = {
+      app = "nginx-hello-world"
+    }
+  }
+
+  spec {
+    replicas = 2
+
+    selector {
+      match_labels = {
+        app = "nginx-hello-world"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "nginx-hello-world"
+        }
+      }
+
+      spec {
+        container {
+          name  = "nginx"
+          image = "nginx:latest"
+          volume_mount {
+            name       = "nginx-html"
+            mount_path = "/usr/share/nginx/html"
+          }
+        }
+
+        volume {
+          name = "nginx-html"
+
+          config_map {
+            name = kubernetes_config_map.nginx_hello_world.metadata[0].name
+          }
+        }
+      }
+    }
+  }
+}
