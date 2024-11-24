@@ -29,8 +29,10 @@ module "vpc" {
 module "eks" {
   source              = "./modules/eks"
   vpc_id              = module.vpc.vpc_id
-  subnets             = module.vpc.eks_subnet_cidr
-  subnet_ids          = module.vpc.eks_subnet_ids
+  eks_subnets         = module.vpc.eks_subnet_cidr
+  eks_subnet_ids      = module.vpc.eks_subnet_ids
+  all_subnets         = flatten(concat(module.vpc.public_subnets, module.vpc.private_subnets, module.vpc.eks_subnet_cidr))
+  vpc_cidr            = var.vpc_cidr
   environment         = var.environment
   cluster_name        = "eks-cluster-${var.environment}-1"
   tags                = var.tags

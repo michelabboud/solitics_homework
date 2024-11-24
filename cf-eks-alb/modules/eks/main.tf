@@ -14,7 +14,7 @@ module "eks_al2" {
   }
 
   vpc_id     = var.vpc_id
-  subnet_ids = var.subnet_ids
+  subnet_ids = var.eks_subnet_ids
 
   cluster_security_group_id               = aws_security_group.eks_control_plane.id
   node_security_group_id                  = aws_security_group.eks_worker_nodes.id
@@ -98,7 +98,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.subnets
+    cidr_blocks = var.vpc_cidr
   }
 
   ingress {
@@ -106,7 +106,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.subnets
+    cidr_blocks = var.vpc_cidr
   }
 
   ingress {
@@ -114,7 +114,7 @@ resource "aws_security_group" "eks_control_plane" {
     from_port   = 10250
     to_port     = 10250
     protocol    = "tcp"
-    cidr_blocks = var.subnets
+    cidr_blocks = var.vpc_cidr
   }
 
   egress {
@@ -137,7 +137,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-#     security_groups = [aws_security_group.eks_control_plane.id]
+    security_groups = [aws_security_group.eks_control_plane.id]
   }
 
   ingress {
@@ -145,7 +145,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-#     security_groups = [aws_security_group.eks_control_plane.id]
+    security_groups = [aws_security_group.eks_control_plane.id]
   }
 
   ingress {
@@ -153,7 +153,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 30000
     to_port     = 32767
     protocol    = "tcp"
-    cidr_blocks = var.subnets
+    cidr_blocks = var.eks_subnets
   }
 
   ingress {
@@ -161,7 +161,7 @@ resource "aws_security_group" "eks_worker_nodes" {
     from_port   = 1025
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = var.subnets
+    cidr_blocks = var.eks_subnets
   }
 
   egress {

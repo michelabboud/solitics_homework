@@ -8,14 +8,24 @@ variable "vpc_id" {
   description = "VPC ID where the cluster will be deployed."
 }
 
-variable "subnets" {
+variable "vpc_cidr" {
+  type        = list(string)
+  description = "VPC Cidr"
+}
+
+variable "eks_subnets" {
   type        = list(string)
   description = "List of subnet cidr for the cluster."
 }
 
-variable "subnet_ids" {
+variable "eks_subnet_ids" {
   type        = list(string)
   description = "List of subnet IDs for the cluster."
+}
+
+variable "all_subnets" {
+  type        = list(string)
+  description = "List of all VPC subnets cidr."
 }
 
 variable "environment" {
