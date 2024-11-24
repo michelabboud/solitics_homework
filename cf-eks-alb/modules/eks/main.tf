@@ -5,6 +5,8 @@ module "eks_al2" {
   cluster_name    = var.cluster_name
   cluster_version = "1.31"
 
+  cluster_role_arn = aws_iam_role.cluster_role.arn
+
   # EKS Addons
   cluster_addons = {
     coredns                = {}
@@ -64,8 +66,20 @@ resource "aws_iam_role" "node_role" {
   })
 }
 
-resource "aws_iam_policy_attachment" "node_role_policy" {
-  name       = "${var.environment}-node-role-policy"
+resource "aws_iam_policy_attachment" "node_role_policy_worker" {
+  name       = "${var.environment}-node-role-worker-policy"
   roles      = [aws_iam_role.node_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+
+resource "aws_iam_policy_attachment" "node_role_policy_ecr" {
+  name       = "${var.environment}-node-role-ecr-policy"
+  roles      = [aws_iam_role.node_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+resource "aws_iam_policy_attachment" "node_role_policy_cni" {
+  name       = "${var.environment}-node-role-cni-policy"
+  roles      = [aws_iam_role.node_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
