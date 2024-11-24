@@ -1,19 +1,3 @@
-provider "aws" {
-  region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-
-  #   default_tags {
-  #   tags = {
-  #     Environment  = var.environment
-  #     Owner        = "Michel"
-  #     Project      = "Michel Homework test"
-  #     TimeStamp    = timestamp()
-  #   }
-  # }
-
-}
-
 module "vpc" {
   source               = "./modules/vpc"
   environment          = var.environment
@@ -21,8 +5,8 @@ module "vpc" {
   region               = var.aws_region
   vpc_name             = var.vpc_name
   tags                 = var.tags
-#   public_subnets_cidr  = var.public_subnets_cidr
-#   private_subnets_cidr = var.private_subnets_cidr
+# public_subnets_cidr  = var.public_subnets_cidr
+# private_subnets_cidr = var.private_subnets_cidr
 
 }
 
@@ -46,6 +30,7 @@ module "alb" {
   eks_control_plane_sg_id = module.eks.eks_control_plane_sg_id
   eks_worker_nodes_sg_id  = module.eks.eks_worker_nodes_sg_id
   environment             = var.environment
+  tags                    = var.tags
 }
 
 # module "cloudfront" {

@@ -41,7 +41,3 @@ resource "aws_wafv2_web_acl_association" "cloudfront_association" {
   resource_arn = var.resource_arn # CloudFront distribution ARN
   web_acl_arn  = aws_wafv2_web_acl.waf.arn
 }
-
-output "waf_arn" {
-  value = aws_wafv2_web_acl.waf.arn
-}

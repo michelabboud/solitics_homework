@@ -78,8 +78,7 @@ resource "aws_lb_listener" "http" {
   depends_on = [aws_lb_target_group.eks_target_group]
 }
 
-
-  resource "aws_lb_listener_rule" "http_rule" {
+resource "aws_lb_listener_rule" "http_rule" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
 
@@ -93,7 +92,6 @@ resource "aws_lb_listener" "http" {
     values = ["/*"]
   }
 }
-
 
 resource "aws_security_group_rule" "eks_to_alb" {
   type              = "ingress"
