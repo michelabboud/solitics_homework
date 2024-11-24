@@ -5,8 +5,6 @@ module "eks_al2" {
   cluster_name    = var.cluster_name
   cluster_version = "1.31"
 
-  cluster_role_arn = aws_iam_role.cluster_role.arn
-
   # EKS Addons
   cluster_addons = {
     coredns                = {}
