@@ -16,9 +16,11 @@ module "eks_al2" {
   vpc_id     = var.vpc_id
   subnet_ids = var.subnet_ids
 
-  cluster_security_group_id       = aws_security_group.eks_control_plane.id
-  node_security_group_id          = [aws_security_group.eks_worker_nodes.id]
-  cluster_endpoint_private_access = true
+  cluster_security_group_id               = aws_security_group.eks_control_plane.id
+  node_security_group_id                  = [aws_security_group.eks_worker_nodes.id]
+  cluster_endpoint_private_access         = true
+  source_node_security_group              = true
+
 #   iam_role_arn                    =
 
   eks_managed_node_groups = {
