@@ -1,2 +1,2 @@
 variable "alb_dns" {}
-# variable "environment" {}
+variable "environment" {}

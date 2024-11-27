@@ -33,11 +33,14 @@ module "alb" {
   tags                    = var.tags
 }
 
-# module "cloudfront" {
-#   source          = "./modules/cloudfront"
-#   alb_dns         = module.alb.alb_dns
-#   environment     = var.environment
-# }
+module "cloudfront" {
+  source          = "./modules/cloudfront"
+  alb_dns         = module.alb.alb_dns
+  vpc_id          = module.vpc.vpc_id
+  environment     = var.environment
+  tags            = var.tags
+
+}
 
 # module "waf" {
 #   source          = "./modules/waf"
