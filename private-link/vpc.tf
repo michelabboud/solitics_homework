@@ -9,13 +9,13 @@ module "vpc_1" {
   }
 
   name = var.vpc_1_name
-  cidr = [var.vpc_1_cidr]
+  cidr = var.vpc_1_cidr
 
   azs                  = slice(data.aws_availability_zones.vpc_1_available.names, 0, 3)
   public_subnets       = [for k, v in module.vpc_1.azs : cidrsubnet(var.vpc_1_cidr, 8, k)]
 
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
+  enable_nat_gateway   = false
+  single_nat_gateway   = false
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -33,13 +33,13 @@ module "vpc_2" {
   }
 
   name = var.vpc_2_name
-  cidr = [var.vpc_2_cidr]
+  cidr = var.vpc_2_cidr
 
   azs                  = slice(data.aws_availability_zones.vpc_1_available.names, 0, 3)
   public_subnets       = [for k, v in module.vpc_1.azs : cidrsubnet(var.vpc_1_cidr, 8, k)]
 
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
+  enable_nat_gateway   = false
+  single_nat_gateway   = false
   enable_dns_support   = true
   enable_dns_hostnames = true
 
