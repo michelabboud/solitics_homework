@@ -21,3 +21,11 @@ output "vpc_1_ec2_public_ip" {
 output "vpc_2_ec2_public_ip" {
   value = aws_instance.vpc_2_ec2.public_ip
 }
+
+output "vpc_1_id" {
+  value = module.vpc_1.vpc_id
+}
+
+output "vpc_2_id" {
+  value = module.vpc_2.vpc_id
+}
