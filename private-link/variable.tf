@@ -12,25 +12,30 @@ variable "aws_secret_key" {
 
 variable "vpc_1_cidr" {
   description = "value"
-  type = string
+  type        = string
 }
 
 variable "vpc_2_cidr" {
   description = "value"
-  type = string
+  type        = string
 }
 
 variable "vpc_1_name" {
   description = "value"
-  type = string
+  type        = string
 }
 
 variable "vpc_2_name" {
   description = "value"
-  type = string
+  type        = string
 }
 
 variable "tags" {
   description = "A map of tags to apply to resources"
   type        = map(string)
+}
+
+variable "instance_type" {
+  description = "Ec2 instance type on both regions"
+  type        = string
 }
