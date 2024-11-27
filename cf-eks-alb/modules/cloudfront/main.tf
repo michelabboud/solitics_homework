@@ -48,7 +48,7 @@ resource "aws_cloudfront_distribution" "example" {
 resource "aws_security_group" "alb" {
   name        = "allow_cloudfront"
   description = "Allow inbound traffic from CloudFront"
-  vpc_id      = var.
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "HTTP from CloudFront"
