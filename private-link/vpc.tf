@@ -10,8 +10,6 @@ module "vpc_1" {
     aws = aws.eu-central-1
   }
 
-  default_vpc_name = var.vpc_1_name
-
   name = var.vpc_1_name
   cidr = var.vpc_1_cidr
 
@@ -37,8 +35,6 @@ module "vpc_2" {
   providers = {
     aws = aws.eu-west-3
   }
-
-  default_vpc_name = var.vpc_2_name
 
   name = var.vpc_2_name
   cidr = var.vpc_2_cidr
