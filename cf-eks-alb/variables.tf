@@ -7,6 +7,7 @@ variable "aws_region" {
 
 variable "aws_access_key" {
   description = "AWS access key"
+  type        = string
   sensitive   = true
 }
 
