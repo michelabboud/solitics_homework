@@ -1,7 +1,7 @@
 resource "aws_cloudfront_distribution" "cf" {
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Michel homework"
+  comment             = "Michel's Homework"
   default_root_object = "index.html"
 
   origin {
