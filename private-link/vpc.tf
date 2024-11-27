@@ -39,8 +39,8 @@ module "vpc_2" {
   name = var.vpc_2_name
   cidr = var.vpc_2_cidr
 
-  azs                  = slice(data.aws_availability_zones.vpc_1_available.names, 0, 3)
-  public_subnets       = [for k, v in module.vpc_1.azs : cidrsubnet(var.vpc_1_cidr, 8, k)]
+  azs                  = slice(data.aws_availability_zones.vpc_2_available.names, 0, 3)
+  public_subnets       = [for k, v in module.vpc_2.azs : cidrsubnet(var.vpc_2_cidr, 8, k)]
 
   enable_nat_gateway   = false
   single_nat_gateway   = false
