@@ -19,7 +19,7 @@ variable "aws_secret_key" {
 variable "environment" {
   description = "Environment for resources (stg/prd)"
   type        = string
-  default     = "stg"
+#   default     = "stg"
 }
 
 variable "bucket_name" {
