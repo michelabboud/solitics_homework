@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "example" {
+resource "aws_cloudfront_distribution" "cf" {
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "Example distribution with ALB origin"

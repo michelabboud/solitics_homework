@@ -41,10 +41,10 @@ module "cloudfront" {
   vpc_name        = var.vpc_name
   environment     = var.environment
   tags            = var.tags
-  aws_access_key  = var.aws_access_key
-  aws_secret_key  = var.aws_secret_key
-  bucket_name     = ""
-  resource_arn    = ""
+#   aws_access_key  = var.aws_access_key
+#   aws_secret_key  = var.aws_secret_key
+#   bucket_name     = ""
+#   resource_arn    = ""
 }
 
 # module "waf" {
