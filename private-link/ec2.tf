@@ -26,7 +26,7 @@ resource "aws_security_group" "pvtlnk-sg-1" {
 resource "aws_instance" "vpc_1_ec2" {
   provider = aws.eu-central-1
 
-  ami             = eu-central-1-ami_id
+  ami             = data.aws_ami.ubuntu_2204_eu_central-1.id
   instance_type   = var.instance_type
   key_name        = aws_key_pair.key-1.key_name
   security_groups = [aws_security_group.pvtlnk-sg-1.name]
@@ -65,9 +65,9 @@ resource "aws_security_group" "pvtlnk-sg-2" {
 }
 
 resource "aws_instance" "vpc_2_ec2" {
-  provider = aws.eu-central-1
+  provider = aws.eu-west-3
 
-  ami             = eu-west-3-ami_id
+  ami             = data.aws_ami.ubuntu_2204_eu_west_3.id
   instance_type   = var.instance_type
   key_name        = aws_key_pair.key-2.key_name
   security_groups = [aws_security_group.pvtlnk-sg-2.name]
