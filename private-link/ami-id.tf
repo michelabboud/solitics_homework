@@ -4,7 +4,7 @@ data "aws_ami" "ubuntu_2204_eu_central-1" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-*"]
 
   }
 
@@ -22,7 +22,7 @@ data "aws_ami" "ubuntu_2204_eu_west_3" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-*"]
   }
 
   filter {
