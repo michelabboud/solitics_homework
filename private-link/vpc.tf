@@ -1,4 +1,6 @@
-data "aws_availability_zones" "vpc_1_available" {}
+data "aws_availability_zones" "vpc_1_available" {
+  provider = aws.eu-central-1
+}
 
 module "vpc_1" {
   source  = "terraform-aws-modules/vpc/aws"
@@ -22,7 +24,9 @@ module "vpc_1" {
   tags = var.tags
 }
 
-data "aws_availability_zones" "vpc_2_available" {}
+data "aws_availability_zones" "vpc_2_available" {
+  provider = aws.eu-west-3
+}
 
 module "vpc_2" {
   source  = "terraform-aws-modules/vpc/aws"
