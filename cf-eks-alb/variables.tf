@@ -20,7 +20,6 @@ variable "aws_secret_key" {
 variable "environment" {
   description = "Environment for resources (stg/prd)"
   type        = string
-#   default     = "stg"
 }
 
 variable "bucket_name" {
@@ -44,16 +43,6 @@ variable "vpc_name" {
   description = "value"
   type = string
 }
-
-# variable "public_subnets_cidr" {
-#   description = "List of public subnets cidrs"
-#   type = list(string)
-# }
-
-# variable "private_subnets_cidr" {
-#   description = "List of private subnets cidrs"
-#   type = list(string)
-# }
 
 variable "tags" {
   description = "A map of tags to apply to resources"
