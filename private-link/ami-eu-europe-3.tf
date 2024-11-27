@@ -1,10 +1,10 @@
-data "aws_ami" "ubuntu_2404_eu_west_3" {
+data "aws_ami" "ubuntu_2204_eu_west_3" {
   provider    = aws.eu-west-3
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-24.04-amd64-server-*"]
+    values = ["amazon/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-*"]
   }
 
   filter {
