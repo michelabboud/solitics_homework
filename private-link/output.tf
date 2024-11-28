@@ -33,3 +33,11 @@ output "vpc_2_id" {
 output "private_zone_id" {
   value = aws_route53_zone.private_zone.zone_id
 }
+
+output "nlb_dns_name" {
+  value = aws_lb.nlb.dns_name
+}
+
+output "nlb_zone_id" {
+  value = aws_lb.nlb.zone_id
+}

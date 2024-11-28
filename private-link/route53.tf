@@ -18,5 +18,15 @@ resource "aws_route53_record" "a_record" {
   records = [aws_instance.vpc_1_ec2.public_ip]
 }
 
+resource "aws_route53_record" "nlb_alias" {
+  zone_id = aws_route53_zone.private_zone.zone_id
+  name    = "nlb.michel.internal"  # Replace with your subdomain
+  type    = "A"
 
+  alias {
+    name                   = aws_lb.nlb.dns_name
+    zone_id                = aws_lb.nlb.zone_id
+    evaluate_target_health = true
+  }
+}
 
