@@ -39,7 +39,6 @@ dynamic "subnet_mapping" {
     for_each = module.vpc_1.public_subnets
     content {
       subnet_id = subnet_mapping.value
-      security_group_id = aws_security_group.nlb_sg.id
     }
   }
 
