@@ -7,6 +7,8 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
     "arn:aws:iam::${var.account_id}:${var.iam_user}"
   ]
 
+  private_dns_name = "service.michel.internal"
+
   tags       = merge({ "Name" = "service-endpoint" }, var.tags)
   depends_on = [module.vpc_1, module.vpc_2, aws_lb.nlb]
 }
@@ -17,6 +19,8 @@ resource "aws_vpc_endpoint" "client_endpoint" {
   vpc_endpoint_type  = "Interface"
   subnet_ids         = module.vpc_2.public_subnets
   security_group_ids = [aws_security_group.pvtlnk-sg-2.id]
+
+  private_dns_enabled = true
 
   tags = merge({ "Name" = "client_endpoint" }, var.tags)
 }
