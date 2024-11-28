@@ -33,6 +33,7 @@ resource "aws_instance" "vpc_1_ec2" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.key-1.key_name
   security_groups        = [aws_security_group.pvtlnk-sg-1.name]
+  subnet_id              = module.vpc_1.public_subnets[0]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -79,6 +80,7 @@ resource "aws_instance" "vpc_2_ec2" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.key-2.key_name
   security_groups        = [aws_security_group.pvtlnk-sg-2.name]
+  subnet_id              = module.vpc_2.public_subnets[0]
 
   user_data = <<-EOF
               #!/bin/bash
