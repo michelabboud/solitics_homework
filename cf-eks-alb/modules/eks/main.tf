@@ -7,6 +7,8 @@ provider "kubernetes" {
 
 data "aws_eks_cluster_auth" "main" {
   name = module.eks_al2.cluster_id
+
+  depends_on = [module.eks_al2]
 }
 
 module "eks_al2" {
