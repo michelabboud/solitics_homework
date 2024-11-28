@@ -17,7 +17,7 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 
 resource "aws_vpc_endpoint" "client_endpoint" {
 
-  provider = aws.eu-west-3
+  provider = aws.eu-central-1
 
   vpc_id             = module.vpc_2.vpc_id
   service_name       = aws_vpc_endpoint_service.service_endpoint.service_name
