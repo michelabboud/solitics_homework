@@ -2,7 +2,7 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 
   provider = aws.eu-central-1
 
-  acceptance_required        = true
+  acceptance_required        = false
   network_load_balancer_arns = [aws_lb.nlb.arn]
 
   allowed_principals = [
@@ -25,7 +25,7 @@ resource "aws_vpc_endpoint" "client_endpoint" {
   subnet_ids         = module.vpc_1.public_subnets
   security_group_ids = [aws_security_group.pvtlnk-sg-1.id]
 
-#   private_dns_enabled = true
+  private_dns_enabled = true
 
   tags = merge({ "Name" = "client-endpoint" }, var.tags)
 
