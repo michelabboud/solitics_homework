@@ -29,7 +29,7 @@ module "eks_al2" {
   vpc_id     = var.vpc_id
   subnet_ids = var.eks_subnets_ids
 
-  cluster_endpoint_private_access         = false
+  cluster_endpoint_private_access         = true
 
   eks_managed_node_groups = {
     eks_node_group_1 = {
