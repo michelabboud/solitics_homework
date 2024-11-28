@@ -39,3 +39,13 @@ variable "instance_type" {
   description = "Ec2 instance type on both regions"
   type        = string
 }
+
+variable "account_id" {
+  description = "The account id for private link service "
+  type = string
+}
+
+variable "iam_user" {
+  description = "IAM user for the private link service"
+  type = string
+}

@@ -22,7 +22,7 @@ resource "aws_route53_record" "a_record" {
 
 resource "aws_route53_record" "nlb_alias" {
   zone_id = aws_route53_zone.private_zone.zone_id
-  name    = "nlb.michel.internal"  # Replace with your subdomain
+  name    = "nlb.michel.internal"
   type    = "A"
 
   alias {
