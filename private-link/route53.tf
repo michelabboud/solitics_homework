@@ -16,6 +16,8 @@ resource "aws_route53_record" "a_record" {
   type    = "A"
   ttl     = 300
   records = [aws_instance.vpc_1_ec2.public_ip]
+
+  depends_on = [aws_instance.vpc_1_ec2]
 }
 
 resource "aws_route53_record" "nlb_alias" {
