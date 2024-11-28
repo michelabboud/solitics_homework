@@ -1,5 +1,3 @@
-data "aws_availability_zones" "available" {}
-
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "5.0.0"
