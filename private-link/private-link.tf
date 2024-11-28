@@ -24,13 +24,13 @@ resource "aws_vpc_endpoint_service_private_dns_verification" "private_dns_verifi
 
 resource "aws_vpc_endpoint" "client_endpoint" {
 
-  provider = aws.eu-central-1
+  provider = aws.eu-west-3
 
-  vpc_id             = module.vpc_1.vpc_id
+  vpc_id             = module.vpc_2.vpc_id
   service_name       = aws_vpc_endpoint_service.service_endpoint.service_name
   vpc_endpoint_type  = "Interface"
-  subnet_ids         = module.vpc_1.public_subnets
-  security_group_ids = [aws_security_group.pvtlnk-sg-1.id]
+  subnet_ids         = module.vpc_2.public_subnets
+  security_group_ids = [aws_security_group.pvtlnk-sg-2.id]
 
   private_dns_enabled = false
 
