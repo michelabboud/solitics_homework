@@ -5,9 +5,6 @@ module "vpc" {
   region               = var.aws_region
   vpc_name             = var.vpc_name
   tags                 = var.tags
-# public_subnets_cidr  = var.public_subnets_cidr
-# private_subnets_cidr = var.private_subnets_cidr
-
 }
 
 module "eks" {

@@ -6,7 +6,7 @@ module "alb" {
 
   name               = "${var.environment}-michel-alb-1"
   load_balancer_type = "application"
-  internal           = true
+  internal           = false
   vpc_id             = var.vpc_id
   subnets            = var.subnets
   security_groups    = [var.alb_sg_id]
