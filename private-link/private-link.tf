@@ -2,7 +2,7 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 
   provider = aws.eu-central-1
 
-  acceptance_required        = true
+  acceptance_required        = false
   network_load_balancer_arns = [aws_lb.nlb.arn]
 
   allowed_principals = [
