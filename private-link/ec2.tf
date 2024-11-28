@@ -32,7 +32,7 @@ resource "aws_instance" "vpc_1_ec2" {
   ami                = data.aws_ami.ubuntu_2204_eu_central-1.id
   instance_type      = var.instance_type
   key_name           = aws_key_pair.key-1.key_name
-  security_group_ids = aws_security_group.pvtlnk-sg-1.id]
+  security_group_ids = [aws_security_group.pvtlnk-sg-1.id]
   subnet_id          = module.vpc_1.public_subnets[0]
 
   user_data = <<-EOF
