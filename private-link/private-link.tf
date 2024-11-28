@@ -30,4 +30,6 @@ resource "aws_vpc_endpoint" "client_endpoint" {
 resource "aws_vpc_endpoint_connection_accepter" "endpoint_accept" {
   vpc_endpoint_service_id = aws_vpc_endpoint_service.service_endpoint.id
   vpc_endpoint_id         = aws_vpc_endpoint.client_endpoint.id
+
+  depends_on = [aws_vpc_endpoint.client_endpoint, aws_vpc_endpoint_service.service_endpoint]
 }
