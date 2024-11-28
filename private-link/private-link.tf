@@ -2,7 +2,7 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 
   provider = aws.eu-central-1
 
-  acceptance_required        = false
+  acceptance_required        = true
   network_load_balancer_arns = [aws_lb.nlb.arn]
 
   allowed_principals = [
@@ -13,6 +13,13 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 
   tags       = merge({ "Name" = "service-endpoint" }, var.tags)
   depends_on = [module.vpc_1, module.vpc_2, aws_lb.nlb]
+}
+
+resource "aws_vpc_endpoint_service_private_dns_verification" "private_dns_verification" {
+  service_id = aws_vpc_endpoint_service.service_endpoint.id
+  wait_for_verification = true
+
+  depends_on = [aws_vpc_endpoint_service.service_endpoint]
 }
 
 resource "aws_vpc_endpoint" "client_endpoint" {
