@@ -70,29 +70,29 @@ resource "aws_lb_listener" "http" {
 #   source_security_group_id = var.alb_sg_id
 # }
 
-resource "aws_security_group_rule" "eks_to_alb_secure" {
-  type              = "ingress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
-  security_group_id = var.eks_worker_nodes_sg_id
-  source_security_group_id = var.alb_sg_id
-}
-
-resource "aws_security_group_rule" "allow_alb_to_worker_nodes" {
-  type                     = "ingress"
-  from_port                = 80
-  to_port                  = 80
-  protocol                 = "tcp"
-  security_group_id        = var.eks_worker_nodes_sg_id
-  source_security_group_id = var.alb_sg_id
-}
-
-resource "aws_security_group_rule" "allow_worker_nodes_to_control_plane" {
-  type                     = "ingress"
-  from_port                = 443
-  to_port                  = 443
-  protocol                 = "tcp"
-  security_group_id        = var.eks_control_plane_sg_id
-  source_security_group_id = var.eks_worker_nodes_sg_id
-}
+# resource "aws_security_group_rule" "eks_to_alb_secure" {
+#   type              = "ingress"
+#   from_port         = 443
+#   to_port           = 443
+#   protocol          = "tcp"
+#   security_group_id = var.eks_worker_nodes_sg_id
+#   source_security_group_id = var.alb_sg_id
+# }
+#
+# resource "aws_security_group_rule" "allow_alb_to_worker_nodes" {
+#   type                     = "ingress"
+#   from_port                = 80
+#   to_port                  = 80
+#   protocol                 = "tcp"
+#   security_group_id        = var.eks_worker_nodes_sg_id
+#   source_security_group_id = var.alb_sg_id
+# }
+#
+# resource "aws_security_group_rule" "allow_worker_nodes_to_control_plane" {
+#   type                     = "ingress"
+#   from_port                = 443
+#   to_port                  = 443
+#   protocol                 = "tcp"
+#   security_group_id        = var.eks_control_plane_sg_id
+#   source_security_group_id = var.eks_worker_nodes_sg_id
+# }
