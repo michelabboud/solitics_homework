@@ -41,3 +41,11 @@ output "nlb_dns_name" {
 output "nlb_zone_id" {
   value = aws_lb.nlb.zone_id
 }
+
+output "service_endpoint_name" {
+  value = aws_vpc_endpoint_service.service_endpoint.service_name
+}
+
+output "client_endpoint_name" {
+  value = aws_vpc_endpoint.client_endpoint.service_name
+}

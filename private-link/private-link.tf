@@ -27,7 +27,7 @@ resource "aws_vpc_endpoint" "client_endpoint" {
 
   private_dns_enabled = true
 
-  tags = merge({ "Name" = "client_endpoint" }, var.tags)
+  tags = merge({ "Name" = "client-endpoint" }, var.tags)
 
   depends_on = [module.vpc_1, module.vpc_2, aws_lb.nlb]
 }
