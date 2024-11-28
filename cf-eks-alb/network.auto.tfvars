@@ -1,4 +1,4 @@
-vpc_cidr              = "10.10.0.0/16"
+vpc_cidr              = "10.50.0.0/16"
 
 ### In this case I prefer that the VPC module create the subnets itself
 ### this option is in case i need to manually control it
