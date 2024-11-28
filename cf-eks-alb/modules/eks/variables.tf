@@ -13,11 +13,11 @@ variable "vpc_cidr" {
   description = "VPC Cidr"
 }
 
-# variable "eks_subnets" {
-#   type        = list(string)
-#   description = "List of subnet cidr for the cluster."
-# }
-#
+variable "eks_subnets" {
+  type        = list(string)
+  description = "List of subnet cidr for the cluster."
+}
+
 # variable "eks_subnet_ids" {
 #   type        = list(string)
 #   description = "List of subnet IDs for the cluster."

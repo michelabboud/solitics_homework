@@ -25,7 +25,7 @@ module "eks_al2" {
   }
 
   vpc_id     = var.vpc_id
-  subnet_ids = var.eks_subnet_ids
+  subnet_ids = var.
 
   cluster_endpoint_private_access         = false
 
