@@ -6,6 +6,7 @@ resource "aws_key_pair" "key-1" {
 
 resource "aws_security_group" "pvtlnk-sg-1" {
   provider    = aws.eu-central-1
+  vpc_id = module.vpc_1.vpc_id
   name_prefix = "pvtlnk-sg-"
 
   ingress {
@@ -50,6 +51,7 @@ resource "aws_key_pair" "key-2" {
 
 resource "aws_security_group" "pvtlnk-sg-2" {
   provider    = aws.eu-west-3
+  vpc_id = module.vpc_2.vpc_id
   name_prefix = "pvtlnk-sg-"
 
   ingress {
