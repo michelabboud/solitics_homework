@@ -2,7 +2,7 @@ provider "kubernetes" {
   host                   = module.eks_al2.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks_al2.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.main.token
-  load_config_file       = false
+#   load_config_file       = false
 }
 
 data "aws_eks_cluster_auth" "main" {
