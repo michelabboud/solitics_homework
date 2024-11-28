@@ -1,9 +1,8 @@
-# # Specify the AWS provider
-# provider "aws" {
-#   region = "us-east-1"  # Change this to your desired region
-# }
 
 resource "aws_route53_zone" "private_zone" {
+
+  provider = aws.eu-central-1
+
   name = "michel.internal"  # Change to your domain name
   vpc {
     vpc_id = module.vpc_1.vpc_id
