@@ -33,3 +33,15 @@ resource "aws_lb_target_group" "service_80_tg" {
   vpc_id      = module.vpc_1.vpc_id
   target_type = "instance"
 }
+
+resource "aws_lb_target_group_attachment" "ec2_22_attachment" {
+  target_group_arn = aws_lb_target_group.service_22_tg.arn
+  target_id        = aws_instance.vpc_1_ec2
+  port             = 22
+}
+
+resource "aws_lb_target_group_attachment" "ec2_80_attachment" {
+  target_group_arn = aws_lb_target_group.service_80_tg.arn
+  target_id        = aws_instance.vpc_1_ec2
+  port             = 80
+}
