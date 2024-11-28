@@ -1,4 +1,7 @@
 resource "aws_lb" "nlb" {
+
+  provider = aws.eu-central-1
+
   name               = "michel-nlb"
   internal           = false
   load_balancer_type = "network"
