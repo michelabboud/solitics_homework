@@ -11,7 +11,7 @@ module "eks" {
   source              = "./modules/eks"
   vpc_id              = module.vpc.vpc_id
   eks_subnets         = module.vpc.eks_subnets_cidr
-  eks_subnet_ids      = module.vpc.eks_subnets_ids
+  eks_subnets_ids     = module.vpc.eks_subnets_ids
 # all_subnets         = flatten(concat(module.vpc.public_subnets, module.vpc.private_subnets, module.vpc.eks_subnet_cidr))
   vpc_cidr            = var.vpc_cidr
   environment         = var.environment

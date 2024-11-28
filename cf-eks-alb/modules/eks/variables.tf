@@ -18,10 +18,11 @@ variable "eks_subnets" {
   description = "List of subnet cidr for the cluster."
 }
 
-# variable "eks_subnet_ids" {
-#   type        = list(string)
-#   description = "List of subnet IDs for the cluster."
-# }
+variable "eks_subnets_ids" {
+  type        = list(string)
+  description = "List of subnet IDs for the cluster."
+}
+
 #
 # variable "all_subnets" {
 #   type        = list(string)
