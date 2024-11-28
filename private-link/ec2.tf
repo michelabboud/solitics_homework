@@ -35,6 +35,8 @@ resource "aws_instance" "vpc_1_ec2" {
 #   security_group_ids = [aws_security_group.pvtlnk-sg-1.id]
   subnet_id          = module.vpc_1.public_subnets[0]
 
+  associate_public_ip_address = true
+
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update
@@ -80,6 +82,8 @@ resource "aws_instance" "vpc_2_ec2" {
   key_name           = aws_key_pair.key-2.key_name
 #   security_group_ids = [aws_security_group.pvtlnk-sg-2.id]
   subnet_id          = module.vpc_2.public_subnets[0]
+
+  associate_public_ip_address = true
 
   user_data = <<-EOF
               #!/bin/bash
