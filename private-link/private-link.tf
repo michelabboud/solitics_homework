@@ -1,5 +1,7 @@
 resource "aws_vpc_endpoint_service" "service_endpoint" {
 
+  provider = aws.eu-central-1
+
   acceptance_required        = true
   network_load_balancer_arns = [aws_lb.nlb.arn]
 
@@ -14,6 +16,9 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 }
 
 resource "aws_vpc_endpoint" "client_endpoint" {
+
+  provider = aws.eu-west-3
+
   vpc_id             = module.vpc_2.vpc_id
   service_name       = aws_vpc_endpoint_service.service_endpoint.service_name
   vpc_endpoint_type  = "Interface"
@@ -24,7 +29,7 @@ resource "aws_vpc_endpoint" "client_endpoint" {
 
   tags = merge({ "Name" = "client_endpoint" }, var.tags)
 
-  depends_on = [module.vpc_2, aws_lb.nlb]
+  depends_on = [module.vpc_1, module.vpc_2, aws_lb.nlb]
 }
 
 resource "aws_vpc_endpoint_connection_accepter" "endpoint_accept" {

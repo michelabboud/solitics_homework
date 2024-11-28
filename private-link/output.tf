@@ -41,7 +41,3 @@ output "nlb_dns_name" {
 output "nlb_zone_id" {
   value = aws_lb.nlb.zone_id
 }
-
-# output "vpc_1_public_subnet_ids" {
-#   value = [for s in module.vpc_1.public_subnets : s.id]
-# }
