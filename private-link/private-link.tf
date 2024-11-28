@@ -4,7 +4,7 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
   network_load_balancer_arns = [aws_lb.nlb.arn]
 
   allowed_principals = [
-    "arn:aws:iam::${var.account_id}:${var.iam_user}"
+    "arn:aws:iam::${var.account_id}:root"
   ]
 
   private_dns_name = "service.michel.internal"
