@@ -16,8 +16,8 @@ resource "aws_vpc_endpoint_service" "service_endpoint" {
 }
 
 resource "aws_vpc_endpoint_service_private_dns_verification" "private_dns_verification" {
-  service_id = aws_vpc_endpoint_service.service_endpoint.id
-  wait_for_verification = true
+  service_id            = aws_vpc_endpoint_service.service_endpoint.id
+  wait_for_verification = false
 
   depends_on = [aws_vpc_endpoint_service.service_endpoint]
 }
