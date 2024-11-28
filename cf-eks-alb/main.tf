@@ -24,8 +24,8 @@ module "alb" {
   vpc_id                  = module.vpc.vpc_id
   subnets                 = module.vpc.private_subnets
   alb_sg_id               = module.vpc.alb_sg_id
-  eks_control_plane_sg_id = module.eks.eks_control_plane_sg_id
-  eks_worker_nodes_sg_id  = module.eks.eks_worker_nodes_sg_id
+#   eks_control_plane_sg_id = module.eks.eks_control_plane_sg_id
+#   eks_worker_nodes_sg_id  = module.eks.eks_worker_nodes_sg_id
   environment             = var.environment
   tags                    = var.tags
 }
@@ -38,10 +38,6 @@ module "cloudfront" {
   vpc_name        = var.vpc_name
   environment     = var.environment
   tags            = var.tags
-#   aws_access_key  = var.aws_access_key
-#   aws_secret_key  = var.aws_secret_key
-#   bucket_name     = ""
-#   resource_arn    = ""
 }
 
 # module "waf" {

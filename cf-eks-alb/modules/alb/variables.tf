@@ -24,10 +24,10 @@ variable "tags" {
   description = "Additional tags for resources."
 }
 
-variable "eks_worker_nodes_sg_id" {
-  type = string
-}
-
-variable "eks_control_plane_sg_id" {
-  type = string
-}
+# variable "eks_worker_nodes_sg_id" {
+#   type = string
+# }
+#
+# variable "eks_control_plane_sg_id" {
+#   type = string
+# }
