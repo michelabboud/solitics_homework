@@ -15,7 +15,7 @@ module "eks" {
 # all_subnets         = flatten(concat(module.vpc.public_subnets, module.vpc.private_subnets, module.vpc.eks_subnet_cidr))
   vpc_cidr            = var.vpc_cidr
   environment         = var.environment
-  cluster_name        = "eks-cluster-${var.environment}-1"
+  cluster_name        = "eks-cluster-${var.environment}-2"
   tags                = var.tags
 }
 
