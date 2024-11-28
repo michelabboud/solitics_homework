@@ -10,6 +10,13 @@ resource "aws_security_group" "pvtlnk-sg-1" {
   name_prefix = "pvtlnk-sg-"
 
   ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -43,6 +50,25 @@ resource "aws_instance" "vpc_1_ec2" {
               #!/bin/bash
               sudo apt-get update
               sudo apt -y upgrade
+              sudo apt -y install nginx
+              sudo systemctl enable nginx
+
+              # Create index.html
+              echo "<!DOCTYPE html>
+              <html lang='en'>
+              <head>
+                  <meta charset='UTF-8'>
+                  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                  <title>Hello World</title>
+              </head>
+              <body>
+                  <h1>Hello, World!</h1>
+                  <p>Welcome to my website.</p>
+              </body>
+              </html>" > /var/www/html/index.html
+
+              sudo systemctl restart nginx
+
             EOF
 
   tags = merge(var.tags, { "Name" = "pvtlnl_instance_1" })

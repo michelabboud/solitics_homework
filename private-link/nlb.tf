@@ -14,5 +14,22 @@ dynamic "subnet_mapping" {
   }
 
   enable_deletion_protection = false
+
+  tags = merge({"Name" = "service nlb"}, var.tags)
 }
 
+resource "aws_lb_target_group" "service_22_tg" {
+  name        = "service-22-tg"
+  port        = 22
+  protocol    = "TCP"
+  vpc_id      = module.vpc_1.vpc_id
+  target_type = "instance"
+}
+
+resource "aws_lb_target_group" "service_80_tg" {
+  name        = "service-22-tg"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = module.vpc_1.vpc_id
+  target_type = "instance"
+}
