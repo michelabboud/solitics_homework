@@ -15,7 +15,7 @@ resource "aws_route53_record" "a_record" {
   name    = "instance-1.michel.internal"
   type    = "A"
   ttl     = 300
-  records = [aws_instance.vpc_1_ec2.public_ip]
+  records = [aws_instance.vpc_1_ec2.private_ip]
 
   depends_on = [aws_instance.vpc_1_ec2]
 }
