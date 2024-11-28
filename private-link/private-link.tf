@@ -32,7 +32,7 @@ resource "aws_vpc_endpoint" "client_endpoint" {
   subnet_ids         = module.vpc_1.public_subnets
   security_group_ids = [aws_security_group.pvtlnk-sg-1.id]
 
-  private_dns_enabled = true
+  private_dns_enabled = false
 
   tags = merge({ "Name" = "client-endpoint" }, var.tags)
 
