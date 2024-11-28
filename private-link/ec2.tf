@@ -84,7 +84,7 @@ resource "aws_instance" "vpc_2_ec2" {
   ami                = data.aws_ami.ubuntu_2204_eu_west_3.id
   instance_type      = var.instance_type
   key_name           = aws_key_pair.key-2.key_name
-  security_group_ids = [aws_security_group.pvtlnk-sg-2.id]
+  security_groups    = [aws_security_group.pvtlnk-sg-2.id]
   subnet_id          = module.vpc_2.public_subnets[0]
 
   associate_public_ip_address = true
