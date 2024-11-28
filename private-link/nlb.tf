@@ -53,6 +53,10 @@ resource "aws_lb_target_group" "service_22_tg" {
   protocol    = "TCP"
   vpc_id      = module.vpc_1.vpc_id
   target_type = "instance"
+
+  health_check {
+    protocol = "TCP"
+  }
 }
 
 resource "aws_lb_target_group" "service_80_tg" {
@@ -61,6 +65,10 @@ resource "aws_lb_target_group" "service_80_tg" {
   protocol    = "TCP"
   vpc_id      = module.vpc_1.vpc_id
   target_type = "instance"
+
+  health_check {
+    protocol = "TCP"
+  }
 }
 
 resource "aws_lb_target_group_attachment" "ec2_22_attachment" {
@@ -74,3 +82,26 @@ resource "aws_lb_target_group_attachment" "ec2_80_attachment" {
   target_id        = aws_instance.vpc_1_ec2.id
   port             = 80
 }
+
+resource "aws_lb_listener" "listener_22" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = 22
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.service_22_tg.arn
+  }
+}
+
+resource "aws_lb_listener" "listener_80" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = 80
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.service_80_tg.arn
+  }
+}
+
