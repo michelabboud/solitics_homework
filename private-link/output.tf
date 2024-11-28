@@ -29,3 +29,7 @@ output "vpc_1_id" {
 output "vpc_2_id" {
   value = module.vpc_2.vpc_id
 }
+
+output "private_zone_id" {
+  value = aws_route53_zone.private_zone.zone_id
+}
