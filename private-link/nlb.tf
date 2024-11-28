@@ -3,8 +3,11 @@ resource "aws_lb" "nlb" {
   internal           = false
   load_balancer_type = "network"
 
-  subnet_mapping {
-    subnet_id = [module.vpc_1.public_subnets]
+dynamic "subnet_mapping" {
+    for_each = module.vpc_1.public_subnets
+    content {
+      subnet_id = subnet_mapping.value
+    }
   }
 
   enable_deletion_protection = false
