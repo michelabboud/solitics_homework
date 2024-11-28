@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "service_22_tg" {
 }
 
 resource "aws_lb_target_group" "service_80_tg" {
-  name        = "service-22-tg"
+  name        = "service-80-tg"
   port        = 80
   protocol    = "TCP"
   vpc_id      = module.vpc_1.vpc_id
