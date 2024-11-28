@@ -15,7 +15,7 @@ resource "aws_vpc_endpoint" "client_endpoint" {
   vpc_id             = module.vpc_2.vpc_id
   service_name       = aws_vpc_endpoint_service.service_endpoint.service_name
   vpc_endpoint_type  = "Interface"
-  subnet_ids         = [module.vpc_2.public_subnets]
+  subnet_ids         = module.vpc_2.public_subnets
   security_group_ids = [aws_security_group.pvtlnk-sg-2.id]
 
   tags = merge({ "Name" = "client_endpoint" }, var.tags)
