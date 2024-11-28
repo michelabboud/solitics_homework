@@ -1,3 +1,32 @@
+resource "aws_security_group" "nlb_sg" {
+  name_prefix = "nlb-sg-"
+  vpc_id      = module.vpc_1.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]  # Adjust this as needed
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]  # Adjust this as needed
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge({"Name" = "NLB Security Group"}, var.tags)
+}
+
+
 resource "aws_lb" "nlb" {
 
   provider = aws.eu-central-1
@@ -10,6 +39,7 @@ dynamic "subnet_mapping" {
     for_each = module.vpc_1.public_subnets
     content {
       subnet_id = subnet_mapping.value
+      security_group_id = aws_security_group.nlb_sg.id
     }
   }
 
